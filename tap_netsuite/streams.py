@@ -138,3 +138,22 @@ class PurchaseOrdersStream(NetsuiteStream):
         th.Property("tranDate", th.DateTimeType),
         th.Property("tranId", th.StringType),
     ).to_dict()
+
+    def get_url_params(
+        self,
+        context: dict | None,
+        next_page_token: Any | None,
+    ) -> dict[str, Any]:
+        """Return a dictionary of values to be used in URL parameterization.
+
+        Args:
+            context: The stream context.
+            next_page_token: The next page index or value.
+
+        Returns:
+            A dictionary of URL query parameters.
+        """
+        params: dict = {
+            'q': 'lastModifiedDate AFTER "15/04/2023"'
+        }
+        return {}
