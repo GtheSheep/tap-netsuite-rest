@@ -56,11 +56,8 @@ class TapNetsuite(Tap):
             A list of discovered streams.
         """
         return [
-            streams._IDCustomerStream(self),
             streams.CustomersStream(self),
-            streams._IDInventoryItemStream(self),
             streams.InventoryItemsStream(self),
-            streams._IDPurchaseOrderStream(self),
             streams.PurchaseOrdersStream(self)
         ]
 
