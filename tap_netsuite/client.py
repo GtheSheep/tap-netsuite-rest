@@ -54,26 +54,6 @@ class NetsuiteStream(RESTStream):
             headers["User-Agent"] = self.config.get("user_agent")
         return headers
 
-    def get_next_page_token(
-        self,
-        response: requests.Response,
-        previous_token: Any | None,
-    ) -> Any | None:
-        """Return a token for identifying next page or None if no more pages.
-
-        Args:
-            response: The HTTP ``requests.Response`` object.
-            previous_token: The previous page token value.
-
-        Returns:
-            The next pagination token.
-        """
-        response_json = response.json()
-        next_page_token = None
-        if response_json['hasMore']:
-            next_page_token = response_json['offset'] + response_json['count']
-        return next_page_token
-
     def get_url_params(
         self,
         context: dict | None,
@@ -88,9 +68,20 @@ class NetsuiteStream(RESTStream):
         Returns:
             A dictionary of URL query parameters.
         """
-        params: dict = {
-            "limit": 1000
-        }
-        if next_page_token:
-            params["offset"] = next_page_token
-        return params
+        return {}
+
+    def get_next_page_token(
+        self,
+        response: requests.Response,
+        previous_token: Any | None,
+    ) -> Any | None:
+        """Return a token for identifying next page or None if no more pages.
+
+        Args:
+            response: The HTTP ``requests.Response`` object.
+            previous_token: The previous page token value.
+
+        Returns:
+            The next pagination token.
+        """
+        return None
