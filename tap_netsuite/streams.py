@@ -114,3 +114,27 @@ class InventoryItemsStream(NetsuiteStream):
             th.Property("refName", th.StringType),
         )),
     ).to_dict()
+
+
+class _IDPurchaseOrderStream(IDStream):
+    name = "_id_purchase_order"
+    path = "/purchaseOrder"
+
+
+class PurchaseOrdersStream(NetsuiteStream):
+    name = "purchase_orders"
+    path = "/purchaseOrder/{id}"
+    primary_keys = ["id"]
+    replication_key = None
+    parent_stream_type = _IDPurchaseOrderStream
+    ignore_parent_replication_keys = True
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType),
+        th.Property("createdDate", th.DateTimeType),
+        th.Property("lastModifiedDate", th.DateTimeType),
+        th.Property("memo", th.StringType),
+        th.Property("subtotal", th.NumberType),
+        th.Property("total", th.NumberType),
+        th.Property("tranDate", th.DateTimeType),
+        th.Property("tranId", th.StringType),
+    ).to_dict()

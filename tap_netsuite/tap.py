@@ -60,6 +60,8 @@ class TapNetsuite(Tap):
             streams.CustomersStream(self),
             streams._IDInventoryItemStream(self),
             streams.InventoryItemsStream(self),
+            streams._IDPurchaseOrderStream(self),
+            streams.PurchaseOrdersStream(self)
         ]
 
 
