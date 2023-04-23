@@ -280,16 +280,158 @@ class CustomersStream(NetsuiteRESTBaseStream):
 
 
 inventory_items_schema = th.PropertiesList(
-    th.Property("id", th.StringType),
+    th.Property("links", links_schema),
+    th.Property("assetAccount", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("atpMethod", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("autoLeadTime", th.BooleanType),
+    th.Property("autoPreferredStockLevel", th.BooleanType),
+    th.Property("autoReorderPoint", th.BooleanType),
+    th.Property("averageCost", th.NumberType),
+    th.Property("billExchRateVarianceAcct", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("class", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("cogsAccount", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("costEstimateType", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("costingMethod", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("countryOfManufacture", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
     th.Property("createdDate", th.DateTimeType),
+    th.Property("createRevenuePlansOn", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("currency", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("customForm", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("deferredRevenueAccount", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("deferRevRec", th.BooleanType),
+    th.Property("directRevenuePosting", th.BooleanType),
     th.Property("displayName", th.StringType),
+    th.Property("dontShowPrice", th.BooleanType),
+    th.Property("enforceminqtyinternally", th.BooleanType),
+    th.Property("excludeFromSiteMap", th.BooleanType),
     th.Property("externalId", th.StringType),
+    th.Property("froogleProductFeed", th.BooleanType),
+    th.Property("gainLossAccount", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("id", th.StringType),
+    th.Property("includeChildren", th.BooleanType),
+    th.Property("incomeAccount", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("intercoIncomeAccount", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
     th.Property("internalId", th.IntegerType),
+    th.Property("isGCoCompliant", th.BooleanType),
+    th.Property("isInactive", th.BooleanType),
+    th.Property("isLotItem", th.BooleanType),
+    th.Property("isOnline", th.BooleanType),
+    th.Property("itemId", th.StringType),
     th.Property("itemType", th.ObjectType(
         th.Property("id", th.StringType),
         th.Property("refName", th.StringType),
     )),
+    th.Property("itemVendor", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
     th.Property("lastModifiedDate", th.DateTimeType),
+    th.Property("lastPurchasePrice", th.NumberType),
+    th.Property("manufacturer", th.StringType),
+    th.Property("matchBillToReceipt", th.BooleanType),
+    th.Property("nexTagProductFeed", th.BooleanType),
+    th.Property("presentationItem", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("price", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("purchaseDescription", th.StringType),
+    th.Property("revenueRecognitionRule", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("revRecForecastRule", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("roundUpAsComponent", th.BooleanType),
+    th.Property("salesDescription", th.StringType),
+    th.Property("seasonalDemand", th.BooleanType),
+    th.Property("shoppingProductFeed", th.BooleanType),
+    th.Property("shopzillaProductFeed", th.BooleanType),
+    th.Property("siteCategory", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("subsidiary", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("supplyReplenishmentMethod", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("totalValue", th.NumberType),
+    th.Property("trackLandedCost", th.BooleanType),
+    th.Property("upcCode", th.StringType),
+    th.Property("vendorName", th.StringType),
+    th.Property("VSOEDelivered", th.BooleanType),
+    th.Property("VSOESopGroup", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("weight", th.NumberType),
+    th.Property("weightUnit", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("yahooProductFeed", th.BooleanType),
+    th.Property("custitem", th.ArrayType(th.ObjectType())),
 ).to_dict()
 
 
@@ -306,21 +448,117 @@ class InventoryItemsStream(NetsuiteRESTBaseStream):
     name = "inventory_items"
     path = "/inventoryItem"
     primary_keys = ["id"]
-    custom_attribute_prefix = "custitem"
     replication_key = "lastModifiedDate"
     substream = InventoryItemsSubStream
     schema = inventory_items_schema
 
 
 purchase_orders_schema = th.PropertiesList(
-    th.Property("id", th.StringType),
+    th.Property("links", links_schema),
+    th.Property("approvalStatus", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("balance", th.NumberType),
+    th.Property("billAddress", th.StringType),
+    th.Property("billAddressList", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("billingAddress", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("billingAddress_text", th.StringType),
     th.Property("createdDate", th.DateTimeType),
+    th.Property("currency", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("customForm", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("department", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("dueDate", th.DateTimeType),
+    th.Property("email", th.StringType),
+    th.Property("employee", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("entity", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("exchangeRate", th.NumberType),
+    th.Property("expense", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("externalId", th.StringType),
+    th.Property("id", th.StringType),
+    th.Property("item", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
     th.Property("lastModifiedDate", th.DateTimeType),
+    th.Property("location", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
     th.Property("memo", th.StringType),
+    th.Property("nextApprover", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("orderStatus", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("prevDate", th.DateTimeType),
+    th.Property("shipAddress", th.StringType),
+    th.Property("shipAddressList", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("shipDate", th.DateTimeType),
+    th.Property("shipIsResidential", th.BooleanType),
+    th.Property("shipOverride", th.BooleanType),
+    th.Property("shippingAddress", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("shippingAddress_text", th.StringType),
+    th.Property("status", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("subsidiary", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
     th.Property("subtotal", th.NumberType),
+    th.Property("terms", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("toBeEmailed", th.BooleanType),
+    th.Property("toBeFaxed", th.BooleanType),
+    th.Property("toBePrinted", th.BooleanType),
     th.Property("total", th.NumberType),
     th.Property("tranDate", th.DateTimeType),
     th.Property("tranId", th.StringType),
+    th.Property("unbilledOrders", th.NumberType),
+    th.Property("custbody", th.ArrayType(th.ObjectType())),
 ).to_dict()
 
 
@@ -328,6 +566,7 @@ class PurchaseOrdersSubStream(NetsuiteStream):
     name = "_purchase_orders"
     path = "/purchaseOrder/{id}"
     primary_keys = ["id"]
+    custom_attribute_prefix = "custbody"
     ignore_parent_replication_keys = True
     schema = purchase_orders_schema
 
