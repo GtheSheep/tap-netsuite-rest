@@ -10,17 +10,21 @@ from singer_sdk import typing as th  # JSON Schema typing helpers
 from tap_netsuite.client import NetsuiteStream
 
 
+links_schema = th.ArrayType(
+    th.ObjectType(
+        th.Property("rel", th.StringType),
+        th.Property("href", th.StringType),
+    ),
+)
+
+
 class NetsuiteRESTBaseStream(NetsuiteStream):
     primary_keys = ["id"]
     replication_key = None
+    records_jsonpath = "$.items[*]"
     schema = th.PropertiesList(
         th.Property("id", th.IntegerType),
-        th.Property("links", th.ArrayType(
-            th.ObjectType(
-                th.Property("rel", th.StringType),
-                th.Property("href", th.StringType),
-            )
-        )),
+        th.Property("links", links_schema),
     ).to_dict()
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
@@ -97,13 +101,163 @@ class NetsuiteRESTBaseStream(NetsuiteStream):
 
 
 customers_schema = th.PropertiesList(
-    th.Property("id", th.StringType),
+    th.Property("links", links_schema),
+    th.Property("addressBook", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("items", th.ArrayType(
+            th.ObjectType(
+                th.Property("links", links_schema),
+                th.Property("addressBookAddress", th.ObjectType(
+                    th.Property("links", links_schema),
+                    th.Property("addr1", th.StringType),
+                    th.Property("addressee", th.StringType),
+                    th.Property("addrText", th.StringType),
+                    th.Property("city", th.StringType),
+                    th.Property("country", th.ObjectType(
+                        th.Property("id", th.StringType),
+                        th.Property("refName", th.StringType),
+                    )),
+                    th.Property("override", th.BooleanType),
+                    th.Property("zip", th.StringType),
+                )),
+                th.Property("addressBookAddress_text", th.StringType),
+                th.Property("addressId", th.StringType),
+                th.Property("defaultBilling", th.BooleanType),
+                th.Property("defaultShipping", th.BooleanType),
+                th.Property("id", th.IntegerType),
+                th.Property("internalId", th.IntegerType),
+                th.Property("isResidential", th.BooleanType),
+                th.Property("label", th.StringType),
+            )
+        )),
+        th.Property("totalResults", th.IntegerType),
+    )),
+    th.Property("alcoholRecipientType", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("balance", th.NumberType),
     th.Property("companyName", th.StringType),
+    th.Property("contactList", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("count", th.IntegerType),
+        th.Property("hasMore", th.BooleanType),
+        th.Property("items", th.ArrayType(
+            th.ObjectType()
+        )),
+        th.Property("offset", th.IntegerType),
+        th.Property("totalResults", th.IntegerType),
+    )),
+    th.Property("contactRoles", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("items", th.ArrayType(
+            th.ObjectType()
+        )),
+        th.Property("totalResults", th.IntegerType),
+    )),
+    th.Property("creditHoldOverride", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("currency", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("currencyList", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("items", th.ArrayType(
+            th.ObjectType(
+                th.Property("links", links_schema),
+                th.Property("balance", th.NumberType),
+                th.Property("currency", th.ObjectType(
+                    th.Property("links", links_schema),
+                    th.Property("id", th.StringType),
+                    th.Property("refName", th.StringType),
+                )),
+                th.Property("depositBalance", th.NumberType),
+                th.Property("displaySymbol", th.StringType),
+                th.Property("overdueBalance", th.NumberType),
+                th.Property("overrideCurrencyFormat", th.BooleanType),
+                th.Property("symbolPlacement", th.ObjectType(
+                    th.Property("id", th.StringType),
+                    th.Property("refName", th.StringType),
+                )),
+                th.Property("unbilledOrders", th.NumberType),
+            ),
+        )),
+        th.Property("totalResults", th.IntegerType),
+    )),
+    th.Property("customForm", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
     th.Property("dateCreated", th.DateTimeType),
+    th.Property("defaultAddress", th.StringType),
+    th.Property("depositBalance", th.NumberType),
+    th.Property("emailPreference", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("emailTransactions", th.BooleanType),
     th.Property("entityId", th.StringType),
+    th.Property("entityStatus", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("faxTransactions", th.BooleanType),
+    th.Property("giveAccess", th.BooleanType),
+    th.Property("groupPricing", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("items", th.ArrayType(
+            th.ObjectType()
+        )),
+        th.Property("totalResults", th.IntegerType),
+    )),
+    th.Property("id", th.StringType),
+    th.Property("isAutogeneratedRepresentingEntity", th.BooleanType),
+    th.Property("isBudgetApproved", th.BooleanType),
     th.Property("isInactive", th.BooleanType),
     th.Property("isPerson", th.BooleanType),
+    th.Property("itemPricing", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("items", th.ArrayType(
+            th.ObjectType()
+        )),
+        th.Property("totalResults", th.IntegerType),
+    )),
     th.Property("lastModifiedDate", th.DateTimeType),
+    th.Property("numberFormat", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("overdueBalance", th.NumberType),
+    th.Property("printTransactions", th.BooleanType),
+    th.Property("receivablesAccount", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("sendEmail", th.BooleanType),
+    th.Property("shipComplete", th.BooleanType),
+    th.Property("shippingCarrier", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("subsidiary", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("terms", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("unbilledOrders", th.NumberType),
+    th.Property("url", th.StringType),
+    th.Property("custentity", th.ArrayType(th.ObjectType())),
 ).to_dict()
 
 
@@ -111,6 +265,7 @@ class CustomersSubStream(NetsuiteStream):
     name = "_customers"
     path = "/customer/{id}"
     primary_keys = ["id"]
+    custom_attribute_prefix = "custentity"
     ignore_parent_replication_keys = True
     schema = customers_schema
 
@@ -118,6 +273,7 @@ class CustomersSubStream(NetsuiteStream):
 class CustomersStream(NetsuiteRESTBaseStream):
     name = "customers"
     path = "/customer"
+    primary_keys = ["id"]
     replication_key = "lastModifiedDate"
     substream = CustomersSubStream
     schema = customers_schema
@@ -141,6 +297,7 @@ class InventoryItemsSubStream(NetsuiteStream):
     name = "_inventory_items"
     path = "/inventoryItem/{id}"
     primary_keys = ["id"]
+    custom_attribute_prefix = "custitem"
     ignore_parent_replication_keys = True
     schema = inventory_items_schema
 
@@ -148,6 +305,8 @@ class InventoryItemsSubStream(NetsuiteStream):
 class InventoryItemsStream(NetsuiteRESTBaseStream):
     name = "inventory_items"
     path = "/inventoryItem"
+    primary_keys = ["id"]
+    custom_attribute_prefix = "custitem"
     replication_key = "lastModifiedDate"
     substream = InventoryItemsSubStream
     schema = inventory_items_schema
@@ -176,6 +335,7 @@ class PurchaseOrdersSubStream(NetsuiteStream):
 class PurchaseOrdersStream(NetsuiteRESTBaseStream):
     name = "purchase_orders"
     path = "/purchaseOrder"
+    primary_keys = ["id"]
     replication_key = "lastModifiedDate"
-    substream = InventoryItemsSubStream
+    substream = PurchaseOrdersSubStream
     schema = purchase_orders_schema
