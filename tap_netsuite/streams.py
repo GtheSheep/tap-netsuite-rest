@@ -578,3 +578,114 @@ class PurchaseOrdersStream(NetsuiteRESTBaseStream):
     replication_key = "lastModifiedDate"
     substream = PurchaseOrdersSubStream
     schema = purchase_orders_schema
+
+
+sales_orders_schema = th.PropertiesList(
+    th.Property("links", links_schema),
+    th.Property("billAddress", th.StringType),
+    th.Property("billAddressList", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("billingAddress", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("billingAddress_text", th.StringType),
+    th.Property("canBeUnapproved", th.BooleanType),
+    th.Property("createdDate", th.DateTimeType),
+    th.Property("currency", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("customForm", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("department", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("email", th.StringType),
+    th.Property("entity", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("estGrossProfit", th.NumberType),
+    th.Property("exchangeRate", th.NumberType),
+    th.Property("id", th.StringType),
+    th.Property("isCrossSubTransaction", th.BooleanType),
+    th.Property("item", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("lastModifiedDate", th.DateTimeType),
+    th.Property("location", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("memo", th.StringType),
+    th.Property("needsPick", th.BooleanType),
+    th.Property("nextBill", th.DateTimeType),
+    th.Property("orderStatus", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("prevDate", th.DateTimeType),
+    th.Property("salesEffectiveDate", th.DateTimeType),
+    th.Property("shipAddress", th.StringType),
+    th.Property("shipAddressList", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("shipComplete", th.BooleanType),
+    th.Property("shipDate", th.DateTimeType),
+    th.Property("shipIsResidential", th.BooleanType),
+    th.Property("shipOverride", th.BooleanType),
+    th.Property("shippingAddress", th.ObjectType(
+        th.Property("links", links_schema),
+    )),
+    th.Property("shippingAddress_text", th.StringType),
+    th.Property("status", th.ObjectType(
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("storeOrder", th.StringType),
+    th.Property("subsidiary", th.ObjectType(
+        th.Property("links", links_schema),
+        th.Property("id", th.StringType),
+        th.Property("refName", th.StringType),
+    )),
+    th.Property("subtotal", th.NumberType),
+    th.Property("toBeEmailed", th.BooleanType),
+    th.Property("toBeFaxed", th.BooleanType),
+    th.Property("toBePrinted", th.BooleanType),
+    th.Property("total", th.NumberType),
+    th.Property("totalCostEstimate", th.NumberType),
+    th.Property("tranDate", th.DateTimeType),
+    th.Property("tranId", th.StringType),
+    th.Property("webStore", th.StringType),
+    th.Property("custbody", th.ArrayType(th.ObjectType())),
+).to_dict()
+
+
+class SalesOrdersSubStream(NetsuiteStream):
+    name = "_sales_orders"
+    path = "/salesOrder/{id}"
+    primary_keys = ["id"]
+    custom_attribute_prefix = "custbody"
+    ignore_parent_replication_keys = True
+    schema = sales_orders_schema
+
+
+class SalesOrdersStream(NetsuiteRESTBaseStream):
+    name = "sales_orders"
+    path = "/salesOrder"
+    primary_keys = ["id"]
+    replication_key = "lastModifiedDate"
+    substream = SalesOrdersSubStream
+    schema = sales_orders_schema
